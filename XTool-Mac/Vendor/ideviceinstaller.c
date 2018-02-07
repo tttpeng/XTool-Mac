@@ -25,6 +25,200 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+static int afc_upload_file(afc_client_t afc, const char* filename, const char* dstfn)
+{
+    FILE *f = NULL;
+    uint64_t af = 0;
+    char buf[1048576];
+    
+    f = fopen(filename, "rb");
+    if (!f) {
+        fprintf(stderr, "fopen: %s: %s\n", "appid", strerror(errno));
+        return -1;
+    }
+    
+    if ((afc_file_open(afc, dstfn, AFC_FOPEN_WRONLY, &af) != AFC_E_SUCCESS) || !af) {
+        fclose(f);
+        fprintf(stderr, "afc_file_open on '%s' failed!\n", dstfn);
+        return -1;
+    }
+    
+    size_t amount = 0;
+    do {
+        amount = fread(buf, 1, sizeof(buf), f);
+        if (amount > 0) {
+            uint32_t written, total = 0;
+            while (total < amount) {
+                written = 0;
+                afc_error_t aerr = afc_file_write(afc, af, buf, amount, &written);
+                if (aerr != AFC_E_SUCCESS) {
+                    fprintf(stderr, "AFC Write error: %d\n", aerr);
+                    break;
+                }
+                total += written;
+            }
+            if (total != amount) {
+                fprintf(stderr, "Error: wrote only %d of %zu\n", total, amount);
+                afc_file_close(afc, af);
+                fclose(f);
+                return -1;
+            }
+        }
+    } while (amount > 0);
+    
+    afc_file_close(afc, af);
+    fclose(f);
+    
+    return 0;
+}
+
+
+static void afc_upload_dir(afc_client_t afc, const char* path, const char* afcpath)
+{
+    afc_make_directory(afc, afcpath);
+    
+    DIR *dir = opendir(path);
+    if (dir) {
+        struct dirent* ep;
+        while ((ep = readdir(dir))) {
+            if ((strcmp(ep->d_name, ".") == 0) || (strcmp(ep->d_name, "..") == 0)) {
+                continue;
+            }
+            char *fpath = (char*)malloc(strlen(path)+1+strlen(ep->d_name)+1);
+            char *apath = (char*)malloc(strlen(afcpath)+1+strlen(ep->d_name)+1);
+            
+            struct stat st;
+            
+            strcpy(fpath, path);
+            strcat(fpath, "/");
+            strcat(fpath, ep->d_name);
+            
+            strcpy(apath, afcpath);
+            strcat(apath, "/");
+            strcat(apath, ep->d_name);
+            
+#ifdef HAVE_LSTAT
+            if ((lstat(fpath, &st) == 0) && S_ISLNK(st.st_mode)) {
+                char *target = (char *)malloc(st.st_size+1);
+                if (readlink(fpath, target, st.st_size+1) < 0) {
+                    fprintf(stderr, "ERROR: readlink: %s (%d)\n", strerror(errno), errno);
+                } else {
+                    target[st.st_size] = '\0';
+                    afc_make_link(afc, AFC_SYMLINK, target, fpath);
+                }
+                free(target);
+            } else
+#endif
+                if ((stat(fpath, &st) == 0) && S_ISDIR(st.st_mode)) {
+                    afc_upload_dir(afc, fpath, apath);
+                } else {
+                    afc_upload_file(afc, fpath, apath);
+                }
+            free(fpath);
+            free(apath);
+        }
+        closedir(dir);
+    }
+}
+
+static int zip_get_contents(struct zip *zf, const char *filename, int locate_flags, char **buffer, uint32_t *len)
+{
+    struct zip_stat zs;
+    struct zip_file *zfile;
+    int zindex = zip_name_locate(zf, filename, locate_flags);
+    
+    *buffer = NULL;
+    *len = 0;
+    
+    if (zindex < 0) {
+        return -1;
+    }
+    
+    zip_stat_init(&zs);
+    
+    if (zip_stat_index(zf, zindex, 0, &zs) != 0) {
+        fprintf(stderr, "ERROR: zip_stat_index '%s' failed!\n", filename);
+        return -2;
+    }
+    
+    if (zs.size > 10485760) {
+        fprintf(stderr, "ERROR: file '%s' is too large!\n", filename);
+        return -3;
+    }
+    
+    zfile = zip_fopen_index(zf, zindex, 0);
+    if (!zfile) {
+        fprintf(stderr, "ERROR: zip_fopen '%s' failed!\n", filename);
+        return -4;
+    }
+    
+    *buffer = malloc(zs.size);
+    if (zs.size > LLONG_MAX || zip_fread(zfile, *buffer, zs.size) != (zip_int64_t)zs.size) {
+        fprintf(stderr, "ERROR: zip_fread %" PRIu64 " bytes from '%s'\n", (uint64_t)zs.size, filename);
+        free(*buffer);
+        *buffer = NULL;
+        zip_fclose(zfile);
+        return -5;
+    }
+    *len = zs.size;
+    zip_fclose(zfile);
+    return 0;
+}
+
+static int zip_get_app_directory(struct zip* zf, char** path)
+{
+    int i = 0;
+    int c = zip_get_num_files(zf);
+    int len = 0;
+    const char* name = NULL;
+    
+    /* look through all filenames in the archive */
+    do {
+        /* get filename at current index */
+        name = zip_get_name(zf, i++, 0);
+        if (name != NULL) {
+            /* check if we have a "Payload/.../" name */
+            len = strlen(name);
+            if (!strncmp(name, "Payload/", 8) && (len > 8)) {
+                /* skip hidden files */
+                if (name[8] == '.')
+                    continue;
+                
+                /* locate the second directory delimiter */
+                const char* p = name + 8;
+                do {
+                    if (*p == '/') {
+                        break;
+                    }
+                } while(p++ != NULL);
+                
+                /* try next entry if not found */
+                if (p == NULL)
+                    continue;
+                
+                len = p - name + 1;
+                
+                if (*path != NULL) {
+                    free(*path);
+                    *path = NULL;
+                }
+                
+                /* allocate and copy filename */
+                *path = (char*)malloc(len + 1);
+                strncpy(*path, name, len);
+                
+                /* add terminating null character */
+                char* t = *path + len;
+                *t = '\0';
+                break;
+            }
+        }
+    } while(i < c);
+    
+    return 0;
+}
 
 
 static void print_apps_header()
@@ -35,6 +229,50 @@ static void print_apps_header()
     printf(", %s", "CFBundleDisplayName");
     printf("\n");
 }
+
+static void print_apps(plist_t apps)
+{
+    uint32_t i = 0;
+    for (i = 0; i < plist_array_get_size(apps); i++) {
+        plist_t app = plist_array_get_item(apps, i);
+        plist_t p_bundle_identifier = plist_dict_get_item(app, "CFBundleIdentifier");
+        char *s_bundle_identifier = NULL;
+        char *s_display_name = NULL;
+        char *s_version = NULL;
+        plist_t display_name = plist_dict_get_item(app, "CFBundleDisplayName");
+        plist_t version = plist_dict_get_item(app, "CFBundleVersion");
+        
+        if (p_bundle_identifier) {
+            plist_get_string_val(p_bundle_identifier, &s_bundle_identifier);
+        }
+        if (!s_bundle_identifier) {
+            fprintf(stderr, "ERROR: Failed to get APPID!\n");
+            break;
+        }
+        
+        if (version) {
+            plist_get_string_val(version, &s_version);
+        }
+        if (display_name) {
+            plist_get_string_val(display_name, &s_display_name);
+        }
+        if (!s_display_name) {
+            s_display_name = strdup(s_bundle_identifier);
+        }
+        
+        /* output app details */
+        printf("%s", s_bundle_identifier);
+        if (s_version) {
+            printf(", \"%s\"", s_version);
+            free(s_version);
+        }
+        printf(", \"%s\"", s_display_name);
+        printf("\n");
+        free(s_display_name);
+        free(s_bundle_identifier);
+    }
+}
+
 
 static void status_cb(plist_t command, plist_t status, void *unused)
 {
@@ -121,7 +359,7 @@ static void status_cb(plist_t command, plist_t status, void *unused)
     }
 }
 void list_app() {
-    char *udid = "4aadb25b782aa93f9f71af4ccf8e05d31150afc4";
+    char *udid = "0301c608636d4d70d0118d010822b14899f60afb";
     
     idevice_t phone = NULL;
     lockdownd_client_t client = NULL;
@@ -213,8 +451,8 @@ void list_app() {
                                                    NULL
                                                    );
     
-    err = instproxy_browse(ipc, client_opts, &apps);
-    printf("error --- %d\n",err);
+//    err = instproxy_browse(ipc, client_opts, &apps);
+//    printf("error --- %d\n",err);
     
     if (!apps || (plist_get_node_type(apps) != PLIST_ARRAY)) {
         fprintf(stderr,
@@ -317,8 +555,7 @@ void list_app() {
     const char APPARCH_PATH[] = "ApplicationArchives";
 #define ITUNES_METADATA_PLIST_FILENAME "iTunesMetadata.plist"
 
-    
-    appid = strdup(optarg);
+    appid = "/Users/tpeng/Desktop/XTool.ipa";
     
     plist_t sinf = NULL;
     plist_t meta = NULL;

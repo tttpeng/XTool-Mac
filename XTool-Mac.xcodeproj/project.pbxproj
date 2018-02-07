@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0403AE56202B49AD00400D7D /* libimobiledevice.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0403AE57202B49AD00400D7D /* libplist.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2FB202AFE59007D70DF /* libplist.3.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0403AE58202B49AD00400D7D /* libzip.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF30F202AFF07007D70DF /* libzip.5.0.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		043DF183202ABAB2007D70DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF182202ABAB2007D70DF /* AppDelegate.swift */; };
 		043DF185202ABAB2007D70DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF184202ABAB2007D70DF /* ViewController.swift */; };
 		043DF187202ABAB2007D70DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 043DF186202ABAB2007D70DF /* Assets.xcassets */; };
@@ -18,9 +21,6 @@
 		043DF1A3202ABAD5007D70DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 043DF19E202ABAD5007D70DF /* Info.plist */; };
 		043DF1A7202ABADD007D70DF /* PTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF1A4202ABADD007D70DF /* PTManager.swift */; };
 		043DF1A8202ABADD007D70DF /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF1A6202ABADD007D70DF /* Helper.swift */; };
-		043DF2E1202AFC06007D70DF /* libimobiledevice.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; };
-		043DF2FC202AFE5A007D70DF /* libplist.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2FB202AFE59007D70DF /* libplist.3.dylib */; };
-		043DF310202AFF07007D70DF /* libzip.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF30F202AFF07007D70DF /* libzip.5.0.dylib */; };
 		043DF316202B08B2007D70DF /* ideviceinstaller.c in Sources */ = {isa = PBXBuildFile; fileRef = 043DF315202B08B2007D70DF /* ideviceinstaller.c */; };
 /* End PBXBuildFile section */
 
@@ -98,21 +98,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				043DF2FC202AFE5A007D70DF /* libplist.3.dylib in Frameworks */,
-				043DF310202AFF07007D70DF /* libzip.5.0.dylib in Frameworks */,
-				043DF2E1202AFC06007D70DF /* libimobiledevice.6.dylib in Frameworks */,
+				0403AE56202B49AD00400D7D /* libimobiledevice.6.dylib in Frameworks */,
+				0403AE57202B49AD00400D7D /* libplist.3.dylib in Frameworks */,
+				0403AE58202B49AD00400D7D /* libzip.5.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0403AE4C202B489D00400D7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		043DF176202ABAB2007D70DF = {
 			isa = PBXGroup;
 			children = (
-				043DF2DD202AFAFC007D70DF /* libimobiledevice */,
 				043DF181202ABAB2007D70DF /* XTool-Mac */,
 				043DF180202ABAB2007D70DF /* Products */,
+				0403AE4C202B489D00400D7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +134,7 @@
 		043DF181202ABAB2007D70DF /* XTool-Mac */ = {
 			isa = PBXGroup;
 			children = (
+				043DF2DD202AFAFC007D70DF /* libimobiledevice */,
 				043DF192202ABACE007D70DF /* Vendor */,
 				043DF182202ABAB2007D70DF /* AppDelegate.swift */,
 				043DF184202ABAB2007D70DF /* ViewController.swift */,
@@ -173,10 +181,10 @@
 		043DF2DD202AFAFC007D70DF /* libimobiledevice */ = {
 			isa = PBXGroup;
 			children = (
-				043DF2E2202AFC1A007D70DF /* includes */,
 				043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */,
 				043DF30F202AFF07007D70DF /* libzip.5.0.dylib */,
 				043DF2FB202AFE59007D70DF /* libplist.3.dylib */,
+				043DF2E2202AFC1A007D70DF /* includes */,
 			);
 			path = libimobiledevice;
 			sourceTree = "<group>";
@@ -468,12 +476,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 673R2667ZY;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libimobiledevice/includes";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/XTool-Mac/libimobiledevice/includes";
 				INFOPLIST_FILE = "XTool-Mac/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../libimobiledevice";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libimobiledevice",
+					"$(PROJECT_DIR)/XTool-Mac/libimobiledevice",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tttpeng.XTool-Mac";
@@ -492,12 +501,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 673R2667ZY;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libimobiledevice/includes";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/XTool-Mac/libimobiledevice/includes";
 				INFOPLIST_FILE = "XTool-Mac/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../libimobiledevice";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libimobiledevice",
+					"$(PROJECT_DIR)/XTool-Mac/libimobiledevice",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tttpeng.XTool-Mac";
