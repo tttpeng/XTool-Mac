@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		042E1743202C1848003EA8AC /* idevicedebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 042E1742202C1848003EA8AC /* idevicedebug.c */; };
 		043DF183202ABAB2007D70DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF182202ABAB2007D70DF /* AppDelegate.swift */; };
 		043DF185202ABAB2007D70DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF184202ABAB2007D70DF /* ViewController.swift */; };
 		043DF187202ABAB2007D70DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 043DF186202ABAB2007D70DF /* Assets.xcassets */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		042E1741202C1848003EA8AC /* idevicedebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = idevicedebug.h; sourceTree = "<group>"; };
+		042E1742202C1848003EA8AC /* idevicedebug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = idevicedebug.c; sourceTree = "<group>"; };
 		043DF17F202ABAB2007D70DF /* XTool-Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "XTool-Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		043DF182202ABAB2007D70DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		043DF184202ABAB2007D70DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				043DF193202ABAD5007D70DF /* peertalk */,
 				043DF314202B08B2007D70DF /* ideviceinstaller.h */,
 				043DF315202B08B2007D70DF /* ideviceinstaller.c */,
+				042E1741202C1848003EA8AC /* idevicedebug.h */,
+				042E1742202C1848003EA8AC /* idevicedebug.c */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 				043DF1A0202ABAD5007D70DF /* PTProtocol.m in Sources */,
 				043DF19F202ABAD5007D70DF /* PTUSBHub.m in Sources */,
 				043DF1A1202ABAD5007D70DF /* PTChannel.m in Sources */,
+				042E1743202C1848003EA8AC /* idevicedebug.c in Sources */,
 				043DF183202ABAB2007D70DF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
