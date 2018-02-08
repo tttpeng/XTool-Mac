@@ -11,4 +11,6 @@
 
 #include <stdio.h>
 
+void launch_app(void);
+
 #endif /* idevicedebug_h */

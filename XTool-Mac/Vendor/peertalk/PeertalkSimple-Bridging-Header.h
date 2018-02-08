@@ -20,5 +20,6 @@
 #import "plist.h"
 #import "ideviceinstaller.h"
 #import "installation_proxy.h"
+#import "idevicedebug.h"
 
 #endif /* Header_h */

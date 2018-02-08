@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-void list_app(void);
-
+void install_app(void (* funcpntr)(void));
+void run_func(void (* funcpntr)(void));
 
 #endif /* ideviceinstaller_h */

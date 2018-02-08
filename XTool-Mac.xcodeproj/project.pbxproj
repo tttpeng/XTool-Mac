@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0403AE56202B49AD00400D7D /* libimobiledevice.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+		0403AE57202B49AD00400D7D /* libplist.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2FB202AFE59007D70DF /* libplist.3.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0403AE58202B49AD00400D7D /* libzip.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF30F202AFF07007D70DF /* libzip.5.0.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		042E1743202C1848003EA8AC /* idevicedebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 042E1742202C1848003EA8AC /* idevicedebug.c */; };
+		042E1745202C2053003EA8AC /* ideviceinstaller in Resources */ = {isa = PBXBuildFile; fileRef = 042E1744202C2053003EA8AC /* ideviceinstaller */; };
+		042E175D202C35A3003EA8AC /* ideviceinstaller in Frameworks */ = {isa = PBXBuildFile; fileRef = 042E1744202C2053003EA8AC /* ideviceinstaller */; };
+		042E1763202C3918003EA8AC /* libimobiledevice.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		042E1765202C393B003EA8AC /* libimobiledevice.6.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; };
 		043DF183202ABAB2007D70DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF182202ABAB2007D70DF /* AppDelegate.swift */; };
 		043DF185202ABAB2007D70DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF184202ABAB2007D70DF /* ViewController.swift */; };
 		043DF187202ABAB2007D70DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 043DF186202ABAB2007D70DF /* Assets.xcassets */; };
@@ -19,15 +26,27 @@
 		043DF1A3202ABAD5007D70DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 043DF19E202ABAD5007D70DF /* Info.plist */; };
 		043DF1A7202ABADD007D70DF /* PTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF1A4202ABADD007D70DF /* PTManager.swift */; };
 		043DF1A8202ABADD007D70DF /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF1A6202ABADD007D70DF /* Helper.swift */; };
-		043DF2E1202AFC06007D70DF /* libimobiledevice.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */; };
-		043DF2FC202AFE5A007D70DF /* libplist.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF2FB202AFE59007D70DF /* libplist.3.dylib */; };
-		043DF310202AFF07007D70DF /* libzip.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 043DF30F202AFF07007D70DF /* libzip.5.0.dylib */; };
 		043DF316202B08B2007D70DF /* ideviceinstaller.c in Sources */ = {isa = PBXBuildFile; fileRef = 043DF315202B08B2007D70DF /* ideviceinstaller.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		042E1764202C3918003EA8AC /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				042E1763202C3918003EA8AC /* libimobiledevice.6.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		042E1741202C1848003EA8AC /* idevicedebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = idevicedebug.h; sourceTree = "<group>"; };
 		042E1742202C1848003EA8AC /* idevicedebug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = idevicedebug.c; sourceTree = "<group>"; };
+		042E1744202C2053003EA8AC /* ideviceinstaller */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ideviceinstaller; sourceTree = "<group>"; };
 		043DF17F202ABAB2007D70DF /* XTool-Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "XTool-Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		043DF182202ABAB2007D70DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		043DF184202ABAB2007D70DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,21 +120,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				043DF2FC202AFE5A007D70DF /* libplist.3.dylib in Frameworks */,
-				043DF310202AFF07007D70DF /* libzip.5.0.dylib in Frameworks */,
-				043DF2E1202AFC06007D70DF /* libimobiledevice.6.dylib in Frameworks */,
+				0403AE56202B49AD00400D7D /* libimobiledevice.6.dylib in Frameworks */,
+				042E175D202C35A3003EA8AC /* ideviceinstaller in Frameworks */,
+				0403AE57202B49AD00400D7D /* libplist.3.dylib in Frameworks */,
+				0403AE58202B49AD00400D7D /* libzip.5.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0403AE4C202B489D00400D7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		042E17B9202C4257003EA8AC /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		043DF176202ABAB2007D70DF = {
 			isa = PBXGroup;
 			children = (
-				043DF2DD202AFAFC007D70DF /* libimobiledevice */,
+				042E17B9202C4257003EA8AC /* New Group */,
 				043DF181202ABAB2007D70DF /* XTool-Mac */,
 				043DF180202ABAB2007D70DF /* Products */,
+				0403AE4C202B489D00400D7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +166,7 @@
 		043DF181202ABAB2007D70DF /* XTool-Mac */ = {
 			isa = PBXGroup;
 			children = (
+				043DF2DD202AFAFC007D70DF /* libimobiledevice */,
 				043DF192202ABACE007D70DF /* Vendor */,
 				043DF182202ABAB2007D70DF /* AppDelegate.swift */,
 				043DF184202ABAB2007D70DF /* ViewController.swift */,
@@ -145,6 +182,7 @@
 		043DF192202ABACE007D70DF /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				042E1744202C2053003EA8AC /* ideviceinstaller */,
 				043DF193202ABAD5007D70DF /* peertalk */,
 				043DF314202B08B2007D70DF /* ideviceinstaller.h */,
 				043DF315202B08B2007D70DF /* ideviceinstaller.c */,
@@ -157,8 +195,8 @@
 		043DF193202ABAD5007D70DF /* peertalk */ = {
 			isa = PBXGroup;
 			children = (
-				043DF1A6202ABADD007D70DF /* Helper.swift */,
 				043DF1A5202ABADD007D70DF /* PeertalkSimple-Bridging-Header.h */,
+				043DF1A6202ABADD007D70DF /* Helper.swift */,
 				043DF1A4202ABADD007D70DF /* PTManager.swift */,
 				043DF194202ABAD5007D70DF /* PTUSBHub.m */,
 				043DF195202ABAD5007D70DF /* PTProtocol.m */,
@@ -178,10 +216,9 @@
 		043DF2DD202AFAFC007D70DF /* libimobiledevice */ = {
 			isa = PBXGroup;
 			children = (
-				043DF2E2202AFC1A007D70DF /* includes */,
-				043DF2E0202AFC06007D70DF /* libimobiledevice.6.dylib */,
 				043DF30F202AFF07007D70DF /* libzip.5.0.dylib */,
 				043DF2FB202AFE59007D70DF /* libplist.3.dylib */,
+				043DF2E2202AFC1A007D70DF /* includes */,
 			);
 			path = libimobiledevice;
 			sourceTree = "<group>";
@@ -266,6 +303,7 @@
 				043DF17B202ABAB2007D70DF /* Sources */,
 				043DF17C202ABAB2007D70DF /* Frameworks */,
 				043DF17D202ABAB2007D70DF /* Resources */,
+				042E1764202C3918003EA8AC /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -320,7 +358,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042E1765202C393B003EA8AC /* libimobiledevice.6.dylib in Resources */,
 				043DF1A3202ABAD5007D70DF /* Info.plist in Resources */,
+				042E1745202C2053003EA8AC /* ideviceinstaller in Resources */,
 				043DF1A2202ABAD5007D70DF /* LICENSE.txt in Resources */,
 				043DF187202ABAB2007D70DF /* Assets.xcassets in Resources */,
 				043DF18A202ABAB2007D70DF /* Main.storyboard in Resources */,
@@ -474,12 +514,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 673R2667ZY;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libimobiledevice/includes";
+				DYLIB_INSTALL_NAME_BASE = "";
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/XTool-Mac/libimobiledevice/includes";
 				INFOPLIST_FILE = "XTool-Mac/Info.plist";
+				LD_DYLIB_INSTALL_NAME = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libimobiledevice",
+					"$(PROJECT_DIR)/XTool-Mac/libimobiledevice",
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tttpeng.XTool-Mac";
@@ -498,12 +543,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 673R2667ZY;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libimobiledevice/includes";
+				DYLIB_INSTALL_NAME_BASE = "";
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/XTool-Mac/libimobiledevice/includes";
 				INFOPLIST_FILE = "XTool-Mac/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources @loader_path/../Frameworks $(inherited) @executable_path/../libimobiledevice @executable_path/../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "@loader_path/../Resources @loader_path/../Frameworks $(inherited) @executable_path/../libimobiledevice @executable_path/../Frameworks @executable_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libimobiledevice",
+					"$(PROJECT_DIR)/XTool-Mac/libimobiledevice",
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tttpeng.XTool-Mac";

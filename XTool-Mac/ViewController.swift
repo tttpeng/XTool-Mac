@@ -21,9 +21,11 @@ class ViewController: NSViewController {
         for ip in getIFAddresses() {
             print(ip)
         }
-        list()
-        list_app()
+//        list()
+//        list_app()
+//        launch_app()
         
+//        install_app()
 
         
     }
@@ -54,9 +56,36 @@ class ViewController: NSViewController {
         idevice_device_list_free(device_list)
     }
     
+    func test_func() {
+        print("ok!!")
+    }
+    
+    
+    func sendIP () {
+        self.ptManager.sendObject(object: self.getIFAddresses().first, type: PTType.string.rawValue)
+    }
     
     @IBAction func sendIPButtonClick(_ sender: NSButton) {
-        ptManager.sendObject(object: getIFAddresses().first, type: PTType.string.rawValue)
+//        launch_app()
+
+        install_app {
+            print("ok!!!")
+                    DispatchQueue.global().async {
+                        let deadlineTime = DispatchTime.now() + 0.5
+                        DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                            launch_app()
+                            self.sendIP()
+                        }
+                    }
+
+        }
+        
+//        DispatchQueue(label: "ccc").async {
+////            install_app()
+//
+//        }
+
+        
     }
     override var representedObject: Any? {
         didSet {
